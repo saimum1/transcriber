@@ -28,8 +28,8 @@ const Projectpage = () => {
     ];
     return (
       <div style={{width:'100%' ,height:'100%',display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column'}}>
-              <div style={{backgroundColor:"#FFF",display:"flex",height:"4.5rem" ,
-                width:'100%',justifyContent:'center',alignItems:'center' ,position:'fixed',top:'0',color:'#000',boxShadow:'-0px 0px 30px black',zIndex:'999999'}} >
+              <div style={{backgroundColor:"whitesmoke",opacity:'80%',display:"flex",height:"4.5rem" ,
+                width:'100%',justifyContent:'center',alignItems:'center' ,position:'fixed',top:'0',color:'#000',boxShadow:'-0px 0px 5px black',zIndex:'999999'}} >
                  
                  
                   <div style={{backgroundColor:"",display:"flex",height:"100%" ,

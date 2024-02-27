@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import boxicon from '../assets/images/linked.svg'
 import behanceicon from '../assets/images/Behance.svg'
 import linkedinicon from '../assets/images/Linkedin.svg'
@@ -13,6 +13,7 @@ import image4 from '../assets/images/Image4.png'
 const Hero = () => {
 
   const itemlist=['About' ,'Projects' ,'Blog' ,'Resume']
+  const [data,setdata]=useState([])
 
   const yourArray = [{
     'img':image1,
@@ -42,10 +43,22 @@ const Hero = () => {
       window.location.href = '/projects'
     }
   }
+
+  const openpost=(e)=>{
+    window.location.href = `/postpage/${e}`
+  }
+
+
+  useEffect(() => {
+    const posts = JSON.parse(localStorage.getItem('posts')) || [];
+    console.log("postsss",posts)
+    setdata(posts)
+  }, [])
+  
   return (
     <div style={{width:'100%' ,height:'100%',display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column'}}>
-            <div style={{backgroundColor:"#FFF",display:"flex",height:"4.5rem" ,
-              width:'100%',justifyContent:'center',alignItems:'center' ,position:'fixed',top:'0',color:'#000',boxShadow:'-0px 0px 30px black',zIndex:'999999'}} >
+            <div style={{backgroundColor:"whitesmoke",opacity:'80%',display:"flex",height:"4.5rem" ,
+              width:'100%',justifyContent:'center',alignItems:'center' ,position:'fixed',top:'0',color:'#000',zIndex:'999999'}} >
                
                
                 <div style={{backgroundColor:"",display:"flex",height:"100%" ,
@@ -121,15 +134,15 @@ const Hero = () => {
 
                           
                         <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem',transition:'all 300ms',cursor:'pointer'}}>
-                          {yourArray.map((value, index) => (
-                            <div className='box' key={index} style={{ background: '', height: '25rem', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',flexDirection:'column',gap:'0.6rem' }}>
-                              <div style={{flex:4,backgroundColor:'',height:'100%' ,width:'100%'}}>
-                                <img src={value.img}  style={{height:'18rem' ,width:'100%'}}/>
-                              </div>
-                              <span style={{flex:1,backgroundColor:'',height:'100%' ,display:'flex',width:'100%',color:'#000',fontFamily:'Inter',fontSize:'2rem',fontWeight:"700"}}>{value.headline}</span>
-                              <span style={{flex:2,backgroundColor:'',height:'100%' ,width:'100%',color:'#000',fontFamily:'Inter',fontSize:'1rem',fontWeight:"400"}}>{value.des}</span>
-                            </div>
-                          ))}
+                         {data?.filter((value)=> {return value?.selected === true})?.map((value, index) => (
+                                <div onClick={()=>openpost(value.id)} className='box' key={index} style={{ background: '', height: '25rem', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', gap: '0.6rem' }}>
+                                    <div style={{ flex: 4, backgroundColor: '', height: '100%', width: '100%' }}>
+                                        <img src={value.featuredPhoto} style={{ height: '18rem', width: '100%' }} alt="Featured" />
+                                    </div>
+                                    <span style={{ flex: 1, backgroundColor: '', height: '100%', display: 'flex', width: '100%', color: '#000', fontFamily: 'Inter', fontSize: '2rem', fontWeight: '700' }}>{value.title}</span>
+                                    <span style={{ flex: 2, backgroundColor: '', height: '100%', width: '100%', color: '#000', fontFamily: 'Inter', fontSize: '1rem', fontWeight: '400' }}>{value.description}</span>
+                                </div>
+                            ))}
                         </div>
                   </div>
 
@@ -214,7 +227,7 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge */
+
 body {
   -ms-overflow-style: none;
 }

@@ -1,34 +1,30 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import image1 from '../assets/images/Image1.png'
 import image2 from '../assets/images/Image2.png'
 import image3 from '../assets/images/Image3.png'
 import image4 from '../assets/images/Image4.png'
+import { useParams } from 'react-router-dom'
+import JoditEditor from 'jodit-react'
 
 const Postpage = () => {
 
+  const { postId } = useParams(); // Extract the postId from URL params
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    const posts = JSON.parse(localStorage.getItem('posts')) || [];
+    const selectedPost = posts.find((p) => p.id === postId);
+    setPost(selectedPost);
+  }, [postId]);
+
+
+
     const itemlist=['About' ,'Projects' ,'Blog' ,'Resume']
   
-    const yourArray = [{
-      'img':image1,
-      'headline':'Whitmanpartners Website',
-      'des':'Whitman Partners is more than just Client Partners, Portfolio Managers, Talent Agents, and Consultants. We are everyday people, just like you.'
-    },{
-      'img':image2,
-      'headline':'Amway Click (Thailand)',
-      'des':'Welcome to Amway Click, the new shopping platform by Amway Enjoy and get offers for new members with variety of recommended items.'
-    },{
-      'img':image3,
-      'headline':'Relaxy - Selfcare On The Go ',
-      'des':'Relaxy is your platform to express emotions in words. Embrace yourself with people far and around with diversity and inclusion.'
-    },{
-      'img':image4,
-      'headline':'Relaxy - Selfcare On The Go ',
-      'des':'Relaxy is your platform to express emotions in words. Embrace yourself with people far and around with diversity and inclusion.'
-    }
-    ];
+ 
     return (
       <div style={{width:'100%' ,height:'100%',display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column',gap:'2rem'}}>
-              <div style={{backgroundColor:"transparent",display:"flex",height:"4.5rem" ,
+              <div style={{backgroundColor:"whitesmoke",display:"flex",height:"4.5rem" ,opacity:'80%',
                 width:'100%',justifyContent:'center',alignItems:'center',color:'#000',position:'fixed',top:'0',zIndex:'9999'}} >
                  
                  
@@ -58,43 +54,18 @@ const Postpage = () => {
   
                 </div>
   
-              <div style={{width:'100%' ,height:'30rem',display:'flex' ,alignItems:'center',justifyContent:'center',backgroundColor:'red'}}>
+              <div style={{width:'100%' ,height:'30rem',display:'flex' ,alignItems:'center',justifyContent:'center',backgroundColor:''}}>
   
-                   <img src='https://tiny-img.com/images/blog/meta/guide-to-shopify-image-sizes-2022.png' style={{width:'100%' ,height:'100%' ,objectFit:'cover'}}/>
+                   <img src={post?.featuredPhoto} style={{width:'100%' ,height:'100%' ,objectFit:'cover'}}/>
                 </div> 
 
-                <div style={{width:'90%' ,display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column',background:''}}>
+                <div style={{width:'90%' ,display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column',background:'',maxHeight:'auto'}}>
   
                   
   
   
-                    <div style={{width:'100%' ,height:'100%',display:'flex' ,alignItems:'center',justifyContent:'center' ,flexDirection:'column',gap:'2rem'}}>
-                          <div style={{width:'100%' ,flex:'1',display:'flex',justifyContent:'flex-start',flexDirection:'column',gap:'1rem'}}>
-                            
-                            <span style={{fontSize:'2rem' ,fontWeight:'500'}}> SELECTED WORK</span>
-                            <span style={{backgroundColor:'#999999',width:'100%',height:'1px'}}> </span>
-                            </div>
   
-  
-  
-  
-                            
-                          <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem',transition:'all 300ms',cursor:'pointer'}}>
-                            {yourArray.map((value, index) => (
-                              <div className='box' key={index} style={{ background: '', height: '25rem', width: '85%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',flexDirection:'column',gap:'0.6rem' }}>
-                                <div style={{flex:4,backgroundColor:'',height:'100%' ,width:'100%'}}>
-                                  <img src={value.img}  style={{height:'15rem' ,width:'100%'}}/>
-                                </div>
-                                <span style={{flex:1,backgroundColor:'',height:'100%' ,display:'flex',width:'100%',color:'#000',fontFamily:'Inter',fontSize:'2rem',fontWeight:"700"}}>{value.headline}</span>
-                                <span style={{flex:2,backgroundColor:'',height:'100%' ,width:'100%',color:'#000',fontFamily:'Inter',fontSize:'1rem',fontWeight:"400"}}>{value.des}</span>
-                              </div>
-                            ))}
-                          </div>
-                    </div>
-  
-                  <div style={{height:'4rem'}}></div>
-  
-  
+               <div dangerouslySetInnerHTML={{ __html: post?.content }} />
   
                 
   
@@ -102,7 +73,7 @@ const Postpage = () => {
   
   
   
-  
+                {/* --------------- footer --------------- */}
   
                 <div style={{backgroundColor:"#000000",display:"flex",height:"18rem" ,
                 width:'100%',justifyContent:'space-between',alignItems:'center',flexDirection:'column',paddingTop:'2rem' }} >

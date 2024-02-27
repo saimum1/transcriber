@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Hero from "../Components/Hero";
 import Projectpage from "../Components/Projectpage";
 import Postpage from "../Components/Postpage";
+import Writepost from "../Components/Writepost";
+import Dashboard from "../Components/Dashboard";
 
 export const router =createBrowserRouter([
     {
@@ -17,9 +19,18 @@ export const router =createBrowserRouter([
                 element : <Projectpage />
             },
             {
-                path : '/postpage',
+                path : '/postpage/:postId',
                 element : <Postpage />
+            },
+            {
+                path : '/writepost',
+                element : <Writepost />
+            },
+            {
+                path : '/dashboard',
+                element :<Dashboard/>
             }
+            
             
 
             ]}])
