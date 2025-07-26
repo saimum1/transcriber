@@ -282,6 +282,7 @@
 
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import config from '../config';
 
 const TranscriptionApp = () => {
     const [file, setFile] = useState(null);
@@ -331,10 +332,10 @@ const TranscriptionApp = () => {
         abortControllerRef.current = new AbortController();
 
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('audio_file', file);
 
         try {
-            const response = await axios.post('http://localhost:5000/transcribe', formData, {
+            const response = await axios.post(config.apiUrl + '/transcribe', formData, {
                 signal: abortControllerRef.current.signal,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -346,8 +347,8 @@ const TranscriptionApp = () => {
                     }
                 },
             });
-
-            setTranscript(response.data.transcript || 'No transcription text available.');
+            console.log("result",response)
+            setTranscript(response.data.result || 'No transcription text available.');
         } catch (err) {
             if (err.name === 'AbortError') {
                 setError('Transcription cancelled.');
